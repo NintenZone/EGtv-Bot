@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.4.1",
-    "twitch-js": "^1.2.17"
+    "tmi.js": "^1.5.0"
   }
 }
