@@ -2,7 +2,7 @@ const reqEvent = event => require('../events/${event}.js');
 
 module.exports = bot => {
     //Discord Events
-    bot.discordClient.on('message', reqEvent('discordMessage'));
+    bot.discordClient.on('message', (message) => reqEvent('discordMessage')(bot, message));
 
     bot.discordClient.on('voiceStateUpdate', reqEvent('micCommandChannelListener'))
 
@@ -13,7 +13,7 @@ module.exports = bot => {
     bot.discordClient.on('error', err => reqEvent('console')(err, 'error'));
 
     //Twitch Events
-    bot.twitchClient.on('message', (channel, tags, message, self) => reqEvent('twitchMessage'));
+    bot.twitchClient.on('chat', (channel, user, message, self) => reqEvent('twitchMessage')(bot, channel, user, message, self));
     bot.twitchClient.on('connected', () => reqEvent(console)(bot.twitchClient)('twitchConnected'));
     
     //Process Handling

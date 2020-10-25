@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 //Package config.
 class Bot {
     constructor(discordClient, twitchClient, config) {
@@ -29,6 +31,8 @@ const { default: SQL } = require('sql-template-strings');
 const bot;
 
 if (config && config.discordToken && config.twitchToken && config.twitchUsername) {
+    let watched = JSON.parse(fs.readFileSync("./data/channels.json")).watched;
+    
     bot = new Bot(new Discord.Client(),
                     new tmi.Client({
                         options: {debug: true},
@@ -40,7 +44,7 @@ if (config && config.discordToken && config.twitchToken && config.twitchUsername
                             username: config.twitchUsername,
                             password: `oauth:${config.twitchToken}`
                         },
-                        channels: []
+                        channels: watched
                     }),
                     config);
 }
