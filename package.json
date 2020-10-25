@@ -1,0 +1,15 @@
+{
+  "name": "egtv-bot",
+  "version": "1.0.0",
+  "description": "Tournament management and Twitch chat bot for EndGameTV.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nitrogue & EndGameTV",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.4.1",
+    "twitch-js": "^1.2.17"
+  }
+}
