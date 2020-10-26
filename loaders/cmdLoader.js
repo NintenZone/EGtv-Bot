@@ -6,12 +6,13 @@ const readdir = promisify(fs.readdir);
 const loadCmd = (path, command, bot) => {
     console.log(`Loading ${command}...`);
     let file = require(`${__dirname}/../commands/${path}`);
-    bot.commands.set(command.replace(/.js/g, ''));
+    bot.commands.set(command.replace(/.js/g, ''), file);
     file.config.aliases.forEach(a => {
-        client.aliases.set(a, command.replace(/.js/g, ''));
+        bot.aliases.set(a, command.replace(/.js/g, ''));
     });
     console.log(`Loaded ${command} successfully.`)
 };
+
 
 exports.loadCmd = loadCmd;
 

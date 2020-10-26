@@ -1,10 +1,10 @@
-const reqEvent = event => require('../events/${event}.js');
+const reqEvent = event => require(`../events/${event}.js`);
 
 module.exports = bot => {
     //Discord Events
     bot.discordClient.on('message', (message) => reqEvent('discordMessage')(bot, message));
 
-    bot.discordClient.on('voiceStateUpdate', reqEvent('micCommandChannelListener'))
+    bot.discordClient.on('voiceStateUpdate', (oldState, newState) => reqEvent('micCommandChannelListener')(bot, oldState, newState));
 
     //Discord Client Output
     bot.discordClient.on('ready', () => reqEvent('console')(bot.discordClient, 'ready'));

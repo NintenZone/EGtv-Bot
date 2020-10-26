@@ -6,6 +6,8 @@ class Bot {
         this.discordClient = discordClient;
         this.twitchClient = twitchClient;
         this.config = config;
+        this.commands = new Map();
+        this.aliases = new Map();
     }
     discordClient() {
         return this.discordClient;
@@ -16,6 +18,12 @@ class Bot {
     config() {
         return this.config;
     }
+    commands() {
+        return this.commands;
+    }
+    aliases() {
+        return this.aliases;
+    }
 }
 
 const config = require('./config.js');
@@ -25,43 +33,29 @@ const Discord = require('discord.js');
 
 //Twitch Client
 const tmi = require('tmi.js');
-const { default: SQL } = require('sql-template-strings');
 
 //Creating New Bot Class
-const bot;
 
-if (config && config.discordToken && config.twitchToken && config.twitchUsername) {
-    let watched = JSON.parse(fs.readFileSync("./data/channels.json")).watched;
+let watched = JSON.parse(fs.readFileSync("./data/channels.json")).watched;
     
-    bot = new Bot(new Discord.Client(),
-                    new tmi.Client({
-                        options: {debug: true},
-                        connection: {
-                            reconnect: true,
-                            secure: true
-                        },
-                        identity: {
-                            username: config.twitchUsername,
-                            password: `oauth:${config.twitchToken}`
-                        },
-                        channels: watched
-                    }),
-                    config);
-}
-else {
-    console.log("Config.js is invalid. Please ensure all information has been entered correctly.\nThis program requires the following fields to startup:\ntwitchUsername, twitchToken, discordToken");
-}
-
-
+const bot = new Bot(new Discord.Client(),
+                new tmi.Client({
+                    options: {debug: true},
+                    connection: {
+                        reconnect: true,
+                        secure: true
+                    },
+                    identity: {
+                        username: config.twitchUsername,
+                        password: `oauth:${config.twitchToken}`
+                    },
+                    channels: watched
+                }),
+                config);
 
 bot.discordClient.login(bot.config.discordToken).catch(console.error);
 
 bot.twitchClient.connect().catch(console.error);
-
-//Database
-const sql = require('sqlite');
-
-sql.open('./data/data.sqlite');
 
 //Loaders
 require('./loaders/cmdLoader.js')(bot);
