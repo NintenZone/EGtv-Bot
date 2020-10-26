@@ -44,7 +44,7 @@ exports.twitchRun = (bot, chat) => {
         data[chat.channel].casters.forEach(caster => {
             casters.push(`${caster.twitter} (${caster.pronouns})`);
         })
-        bot.twitchClient.say(chat.channel, casters.join(" & "));
+        if (casters.length > 0) bot.twitchClient.say(chat.channel, casters.join(" & "));
     }
     
 }
