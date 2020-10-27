@@ -11,8 +11,8 @@ exports.discordRun = (bot, message) => {
             if (!data.channels) {
                 data.channels = {};
             }
-            data["channels"][message.member.voiceChannel.id] = message.args[1];
-            message.channel.send(`Twitch channel \`${message.args[1]}\` mic command was linked to \`${message.member.voice.channel.name}\`.`);
+            data["channels"][message.member.voiceChannel.id] = message.args[1].toLowerCase;
+            message.channel.send(`Twitch channel \`${message.args[1].toLowerCase()}\` mic command was linked to \`${message.member.voice.channel.name}\`.`);
             fs.writeFileSync("./data/mic.json", JSON.stringify(data, null, 2));
         }
         else {
@@ -30,7 +30,7 @@ exports.discordRun = (bot, message) => {
             data.casters = {};
         }
         data.casters[message.author.id] = {twitter: "@" + message.args[1], pronouns: message.args[2]};
-        message.channel.send("You were added to the database of caster's successfully.");
+        message.channel.send("You were added to the database of casters successfully.");
 
         fs.writeFileSync("./data/mic.json", JSON.stringify(data, null, 2));
     }
@@ -38,12 +38,14 @@ exports.discordRun = (bot, message) => {
 
 exports.twitchRun = (bot, chat) => {
     let data = JSON.parse(fs.readFileSync("./data/mic.json"));
-
-    if (data[chat.channel].casters) {
+    
+    if (data[chat.channel.slice(1).toLowerCase()] && data[chat.channel.slice(1).toLowerCase()]) {
         let casters = [];
-        data[chat.channel].casters.forEach(caster => {
-            casters.push(`${caster.twitter} (${caster.pronouns})`);
-        })
+
+        for (const [key, value] of Object.entries(data[chat.channel.slice(1).toLowerCase()])) {
+            casters.push(`${value.twitter} (${value.pronouns})`);
+        }
+
         if (casters.length > 0) bot.twitchClient.say(chat.channel, casters.join(" & "));
     }
     

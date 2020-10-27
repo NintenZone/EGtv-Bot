@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const twitchPerms = require('../utils/twitchPerms.js');
+
 class Chat {
     constructor(channel, user, message, self) {
         this.channel = channel;
@@ -53,10 +55,15 @@ module.exports = async (bot, channel, user, message, self) => {
 
     if (!chat.message.startsWith(prefix)) return;
 
-    chat.setArgs(chat.message.slice(prefix.length).split(/ +/g).slice(1));
-    chat.setSuffix(chat.message.slice(prefix.length).slice(chat.args[0].length + 1));
+    let suffix = chat.message.slice(prefix.length);
+    let args = suffix.split(/ +/g);
+    const command = args[0].toLowerCase();
 
-    const command = chat.message.slice(prefix.length).suffix.split(/ +/g)[0]/toLowerCase();
+    suffix = suffix.slice(args[0].length + 1);
+    args = args.slice(1);
+
+    chat.setArgs(args);
+    chat.setSuffix(suffix);
 
     const cmdFile = bot.commands.get(command) || bot.commands.get(bot.aliases.get(command));
 

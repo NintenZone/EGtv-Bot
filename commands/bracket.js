@@ -1,4 +1,5 @@
 const fs = require('fs');
+const twitchPerms = require('../utils/twitchPerms.js');
 
 let setBracket = function(newBracket) {
     fs.writeFileSync("./data/bracket.txt", newBracket);
@@ -37,9 +38,11 @@ exports.discordRun = async(bot, message) => {
 
 exports.twitchRun = (bot, chat) => {
     if (chat.args[0]) {
-        if (bot.twitchPermLevel(chat.user) >= 3) {
+        console.log(twitchPerms.level(chat.user));
+        console.log(chat.user);
+        if (twitchPerms.level(chat.user) >= 3) {
             if (chat.args[0].toLowerCase() === "clear") {
-                setBrakcet("");
+                setBracket("");
                 return;
             }
             setBracket(chat.args[0]);

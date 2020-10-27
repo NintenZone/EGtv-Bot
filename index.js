@@ -24,26 +24,6 @@ class Bot {
     aliases() {
         return this.aliases;
     }
-    twitchPermissionLevel(user) {
-        if (user.userType) {
-            let userType = user.userType;
-            if (["broadcaster"].includes(userType)) {
-                return 4;
-            }
-            else if (["mod"].includes(userType)) {
-                return 3;
-            }
-            else if (["subscriber"].includes(userType)) {
-                return 2;
-            }
-            else {
-                return 1;
-            }
-        }
-        else {
-            return -1;
-        }
-    }
 }
 
 const config = require('./config.js');
@@ -57,7 +37,7 @@ const tmi = require('tmi.js');
 //Creating New Bot Class
 
 let watched = JSON.parse(fs.readFileSync("./data/channels.json")).watched;
-    
+
 const bot = new Bot(new Discord.Client(),
                 new tmi.Client({
                     options: {debug: true},
@@ -69,7 +49,7 @@ const bot = new Bot(new Discord.Client(),
                         username: config.twitchUsername,
                         password: `oauth:${config.twitchToken}`
                     },
-                    channels: watched
+                    channels: ["endgametv1"]
                 }),
                 config);
 
