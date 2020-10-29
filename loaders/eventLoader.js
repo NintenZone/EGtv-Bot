@@ -14,6 +14,7 @@ module.exports = bot => {
 
     //Twitch Events
     bot.twitchClient.on('chat', (channel, user, message, self) => reqEvent('twitchMessage')(bot, channel, user, message, self));
+    bot.twitchClient.on('connected', () => reqEvent('console')(bot.twitchClient, 'twitchConnected'));
     
     //Process Handling
     process.on('unhandledPromiseRejection', console.error);
