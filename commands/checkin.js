@@ -9,7 +9,7 @@ exports.discordRun = (bot, message) => {
                 data.enabled = true
                 message.channel.send("Checkin is now open!")
             }
-            else if (message.args[0].toLowerCase === "close") {
+            else if (message.args[0].toLowerCase() === "close") {
                 data.enabled = false;
                 message.channel.send("Checkin is now closed!")
             }
