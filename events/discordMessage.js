@@ -19,7 +19,7 @@ module.exports = async (bot, message) => {
     args = args.slice(1);
 
     message.args = args;
-    message.suffix = args;
+    message.suffix = suffix;
 
     const cmdFile = bot.commands.get(command) || bot.commands.get(bot.aliases.get(command));
 

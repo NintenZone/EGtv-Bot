@@ -36,7 +36,7 @@ const tmi = require('tmi.js');
 
 //Creating New Bot Class
 
-let watched = JSON.parse(fs.readFileSync("./data/channels.json")).watched;
+//let watched = JSON.parse(fs.readFileSync("./data/channels.json")).watched;
 
 const bot = new Bot(new Discord.Client(),
                 new tmi.Client({
