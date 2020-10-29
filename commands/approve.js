@@ -3,7 +3,7 @@ const fs = require('fs');
 exports.discordRun = (bot, message) => {
     if (message.args[0]) {
         let data = JSON.parse(fs.readFileSync("./data/checkin.json"));
-        if (isNaN(parseInt(message.args[0]))) return message.channel.sen("You must enter a team ID as a number.")
+        if (isNaN(parseInt(message.args[0]))) return message.channel.send("You must enter a team ID as a number.")
         if (data.teams[message.args[0]]) {
             data.teams[message.args[0]].approved = true;
             bot.discordClient.channels.fetch(data.teams[message.args[0]].channelID).then(channel => {
