@@ -69,6 +69,7 @@ exports.discordRun = (bot, message) => {
                     }
                 }}).then(message => {
                     data.teams[teamID].messageID = message.id;
+                    data.teams[teamID].channelID = message.channel.id;
                     data.teams[teamID].approved = false;
                     fs.writeFileSync("./data/checkin.json", JSON.stringify(data, null, 2));
                 })
