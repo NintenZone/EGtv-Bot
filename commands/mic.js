@@ -11,7 +11,7 @@ exports.discordRun = (bot, message) => {
             if (!data.channels) {
                 data.channels = {};
             }
-            data["channels"][message.member.voiceChannel.id] = message.args[1].toLowerCase;
+            data["channels"][message.member.voice.channel.id] = message.args[1].toLowerCase();
             message.channel.send(`Twitch channel \`${message.args[1].toLowerCase()}\` mic command was linked to \`${message.member.voice.channel.name}\`.`);
             fs.writeFileSync("./data/mic.json", JSON.stringify(data, null, 2));
         }
@@ -43,7 +43,7 @@ exports.twitchRun = (bot, chat) => {
         let casters = [];
 
         for (const [key, value] of Object.entries(data[chat.channel.slice(1).toLowerCase()])) {
-            casters.push(`${value.twitter} (${value.pronouns})`);
+            casters.push(`${value.twitter} (${value.pronouns.toLowerCase()})`);
         }
 
         if (casters.length > 0) bot.twitchClient.say(chat.channel, casters.join(" & "));
@@ -53,7 +53,7 @@ exports.twitchRun = (bot, chat) => {
 
 exports.config = {
     enabled: true,
-    aliases: ["testing"],
+    aliases: [],
     userPerms: [],
     twitchPermLevel: 1
 };
