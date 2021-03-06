@@ -17,11 +17,11 @@ const loadCmd = (path, command, bot) => {
 exports.loadCmd = loadCmd;
 
 module.exports = async bot => {
-    const files = await readdir(`$__dirname/../commands`);
+    const files = await readdir(`${__dirname}/../commands`);
 
     files.forEach(f => {
         try {
-            if (fs.statSync(`$__dirname/../commands/${f}`).isDirectory()) {
+            if (fs.statSync(`${__dirname}/../commands/${f}`).isDirectory()) {
                 let dFiles = fs.readdirSync(`${__dirname}/../commands/${f}`).filter(fi => fs.statSync(`${__dirname}/../commands/${f}/${fi}`).isFile());
                 dFiles.forEach(dF => {
                     loadCmd(`${f}/${dF}`, dF, bot);
