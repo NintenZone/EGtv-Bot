@@ -36,7 +36,15 @@ const tmi = require('tmi.js');
 
 //Creating New Bot Class
 
-//let watched = JSON.parse(fs.readFileSync("./data/channels.json")).watched;
+let joined = JSON.parse(fs.readFileSync("./data/twitchChannels.json"));
+
+if (!joined || !joined.toJoin) {
+    if (!joined) joined = {};
+    if (!joined.toJoin) joined.toJoin = [];
+
+    fs.writeFileSync("./data/twitchChannels.json", JSON.stringify(joined, null, 2));
+}
+
 
 const bot = new Bot(new Discord.Client(),
                 new tmi.Client({
@@ -49,7 +57,7 @@ const bot = new Bot(new Discord.Client(),
                         username: config.twitchUsername,
                         password: `oauth:${config.twitchToken}`
                     },
-                    channels: ["endgametv1"]
+                    channels: joined.toJoin
                 }),
                 config);
 
